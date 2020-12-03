@@ -14,7 +14,7 @@ using InterviewTest.PageObjects;
 namespace InterviewTest.Tests
 {
     // [TestClass]
-    public class HomePageTest
+    public class ProductSearchTest
     {
         IWebDriver _driver;
 
@@ -25,12 +25,22 @@ namespace InterviewTest.Tests
             _driver = new ChromeDriver();
         }
 
-        [Test]
-        public void FindHomePage()
+        [TearDown]
+        public void Cleanup()
         {
+            _driver.Close();
+            _driver.Quit();
+        }
+
+        [Test]
+        public void FindProduct()
+        {
+            string product = "Ivar";
             HomePageObjects HomePage = new HomePageObjects(_driver);
             HomePage.goToPage();
-            Assert.AreEqual("IKEA US - Furniture and Home Furnishings - IKEA", HomePage.getPageTitle());
+            HomePage.testSearch(product);
+            ProductPageObjects Products = new ProductPageObjects(_driver); 
+            Assert.AreEqual(product + " - Search - IKEA", Products.getPageTitle());
         }
 
     }

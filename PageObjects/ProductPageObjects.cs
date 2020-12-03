@@ -14,9 +14,7 @@ using OpenQA.Selenium.Chrome;
 namespace InterviewTest.PageObjects
 {
     class ProductPageObjects
-    {
-        String test_url = "https://www.ikea.com/us/en";
-
+    {        
         private IWebDriver driver;
         private WebDriverWait wait;
 
@@ -25,43 +23,21 @@ namespace InterviewTest.PageObjects
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
             PageFactory.InitElements(driver, this);
-        }
-
-        // Page Elements
-        [FindsBy(How = How.ClassName, Using = "search-box")]
-        [CacheLookup]
-        private IWebElement elSearchBox;
-
-        [FindsBy(How = How.ClassName, Using = "search-field__input")]
-        [CacheLookup]
-        private IWebElement elSearchInput;
-
-        [FindsBy(How = How.Id, Using = "search-box__searchbutton")]
-        [CacheLookup]
-        private IWebElement elSearchButton;
+        }        
 
         [FindsBy(How = How.ClassName, Using = "search-summary__heading")]
         [CacheLookup]
         private IWebElement elSearchSummaryHeading;
-
-        //[FindsBy(How = How.Name, Using = "q")]
-        //[CacheLookup]
-        //private IWebElement elem_search_text;
-
-        //[FindsBy(How = How.Name, Using = "btnI")]
-        //[CacheLookup]
-        //private IWebElement elem_submit_button;
-
-        // Go to the designated page
-        public void goToPage()
-        {
-            driver.Navigate().GoToUrl(test_url);
-        }
-
+        
         // Returns the Page Title
         public String getPageTitle()
         {
             return driver.Title;
+        }
+
+        public string getProductSummary()
+        {
+            return elSearchSummaryHeading.Text;
         }
 
         // Returns the search string

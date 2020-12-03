@@ -13,14 +13,14 @@ using OpenQA.Selenium.Chrome;
 
 namespace InterviewTest.PageObjects
 {
-    class HomePage
+    class HomePageObjects
     {
         String test_url = "https://www.ikea.com/us/en";
 
         private IWebDriver driver;
         private WebDriverWait wait;
 
-        public HomePage(IWebDriver driver)
+        public HomePageObjects(IWebDriver driver)
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
@@ -39,18 +39,6 @@ namespace InterviewTest.PageObjects
         [FindsBy(How = How.Id, Using = "search-box__searchbutton")]
         [CacheLookup]
         private IWebElement elSearchButton;
-
-        [FindsBy(How = How.ClassName, Using = "search-summary__heading")]
-        [CacheLookup]
-        private IWebElement elSearchSummaryHeading;
-
-        //[FindsBy(How = How.Name, Using = "q")]
-        //[CacheLookup]
-        //private IWebElement elem_search_text;
-
-        //[FindsBy(How = How.Name, Using = "btnI")]
-        //[CacheLookup]
-        //private IWebElement elem_submit_button;
 
         // Go to the designated page
         public void goToPage()
@@ -76,12 +64,12 @@ namespace InterviewTest.PageObjects
         //    return elem_logo_img.Displayed;
         //}
 
-        //public SearchPage test_search(string input_search)
-        //{
-        //    elem_search_text.SendKeys(input_search);
-        //    //wait.Until(ExpectedConditions.ElementToBeClickable(elem_submit_button)).Submit();
-        //    elem_search_text.Submit();
-        //    return new SearchPage(driver);
-        //}
+        public HomePageObjects testSearch(string inputSearch)
+        {
+            elSearchBox.Click();
+            elSearchInput.SendKeys(inputSearch);
+            elSearchButton.Click();
+            return new HomePageObjects(driver);
+        }
     }
 }

@@ -25,6 +25,13 @@ namespace InterviewTest.Tests
             _driver = new ChromeDriver();
         }
 
+        [TearDown]
+        public void Cleanup()
+        {
+            _driver.Close();
+            _driver.Quit();
+        }
+
         [Test]
         public void FindHomePage()
         {
