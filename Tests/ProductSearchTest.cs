@@ -40,9 +40,9 @@ namespace InterviewTest.Tests
         public void FindProduct()
         {
             string product = "Ivar";
-            HomePage.testSearch(product);
+            HomePage.Search(product);
             Assert.AreEqual(product + " - Search - IKEA", Products.getPageTitle());
+            HomePage.WaitForSearchField();
         }
-
     }
 }

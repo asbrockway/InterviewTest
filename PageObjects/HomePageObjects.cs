@@ -35,6 +35,9 @@ namespace InterviewTest.PageObjects
         private IWebElement ProfileButton => driver.FindElement(By.ClassName("hnf-header__profile-link"));
         private IWebElement LoyaltyHeader => driver.FindElement(By.ClassName("loyalty-modal-content__link-page__header-title"));
         private IWebElement SignInButton => driver.FindElement(By.LinkText("Sign in"));
+        private IWebElement PurchaseHistory => driver.FindElement(By.LinkText("Purchase history"));
+        //loyalty-modal__close-button
+        private IWebElement LoyaltyCloseButton => driver.FindElement(By.ClassName("loyalty-modal__close-button"));
 
         // Go to the designated page
         public void goToPage()
@@ -48,20 +51,20 @@ namespace InterviewTest.PageObjects
             return driver.Title;
         }
 
-        public HomePageObjects testSearch(string inputSearch)
+        public void Search(string inputSearch)
         {
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("search-field__input")));
+            WaitForSearchField();
             SearchBox.Click();
             SearchInput.SendKeys(inputSearch);
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("search-box__searchbutton")));
             SearchButton.Click();
-            return new HomePageObjects(driver);
+            // return new HomePageObjects(driver);
         }
 
         public void OpenProfile()
         {
             ProfileButton.Click();
-            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("Sign in")));
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("Purchase history")));
             //The following won't work:
             //Error	CS1503	Argument 1: cannot convert from 'OpenQA.Selenium.IWebElement' to 'OpenQA.Selenium.By
             //wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(el));
@@ -81,6 +84,18 @@ namespace InterviewTest.PageObjects
         {
             SignInButton.Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("username")));
+        }
+
+        public void WaitForSearchField()
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("search-field__input")));
+        }
+
+        public void CloseProfile()
+        {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("loyalty-modal__close-button")));
+            LoyaltyCloseButton.Click();
+            WaitForSearchField();
         }
     }
 }

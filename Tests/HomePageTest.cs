@@ -48,6 +48,7 @@ namespace InterviewTest.Tests
             HomePage.OpenProfile();
             Assert.AreEqual("Hej!", HomePage.GetLoyaltyHeader());
             Assert.AreEqual("Sign in", HomePage.SignInText());
+            HomePage.CloseProfile();
         }
     }
 }

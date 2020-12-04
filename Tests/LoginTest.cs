@@ -1,7 +1,6 @@
 ﻿using System;
 using OpenQA.Selenium;
 using OpenQA.Selenium.Remote;
-//using POMExample.PageObjects;
 using NUnit.Framework;
 using System.Threading;
 using System.Collections.Generic;
@@ -20,6 +19,9 @@ namespace InterviewTest.Tests
         IWebDriver _driver;
         HomePageObjects HomePage;
         LoginPageObjects LoginPage;
+        string username;
+        string password;
+        string member;
 
         [SetUp]
         public void Init()
@@ -28,8 +30,13 @@ namespace InterviewTest.Tests
             HomePage = new HomePageObjects(_driver);
             LoginPage = new LoginPageObjects(_driver);
 
+            username = "testy@mytopn.net";
+            password = "j8#/MYTKu.c!H3n";
+            member = "Interview Test";
+
             HomePage.goToPage();
             HomePage.OpenProfile();
+            HomePage.SignIn();
         }
 
         [TearDown]
@@ -42,8 +49,28 @@ namespace InterviewTest.Tests
         [Test]
         public void FindLoginPage()
         {
-            HomePage.SignIn();
             Assert.AreEqual("Login - IKEA", LoginPage.getPageTitle());
         }
+
+        [Test]
+        public void LogInAndOut()
+        {
+            LoginPage.Login(username, password);
+            Assert.AreEqual(member, LoginPage.GetMemberName());
+            HomePage.OpenProfile();
+            LoginPage.LogOut();
+            HomePage.WaitForSearchField();
+            Assert.AreEqual("IKEA US - Furniture and Home Furnishings - IKEA", HomePage.getPageTitle());
+        }
+
+        //[Test]
+        //public void LogOut()
+        //{
+        //    LoginPage.Login(username, password);
+        //    HomePage.OpenProfile();
+        //    LoginPage.LogOut();
+        //    HomePage.WaitForSearchField();
+        //    Assert.AreEqual("IKEA US - Furniture and Home Furnishings - IKEA", HomePage.getPageTitle());
+        //}
     }
 }
