@@ -25,29 +25,15 @@ namespace InterviewTest.PageObjects
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            PageFactory.InitElements(driver, this);
+            //PageFactory.InitElements(driver, this);
         }
 
         // Page Elements
         private IWebElement SearchBox => driver.FindElement(By.ClassName("search-box"));
-
-        //[FindsBy(How = How.ClassName, Using = "search-field__input")]
-        //[CacheLookup]
         private IWebElement SearchInput => driver.FindElement(By.ClassName("search-field__input"));
-
-        //[FindsBy(How = How.Id, Using = "search-box__searchbutton")]
-        //[CacheLookup]
-        private IWebElement SearchButton => driver.FindElement(By.ClassName("search-box__searchbutton"));
-
-        [FindsBy(How = How.ClassName, Using = "hnf-header__profile-link")]
-        [CacheLookup]
-        private IWebElement elProfileButton;
-
-        [FindsBy(How = How.ClassName, Using = "loyalty-modal-content__link-page__header-title")]
-        [CacheLookup]
-        private IWebElement elLoyaltyHeader;
-
-        //private IWebElement elSignIn => driver.FindElements(By.ClassName("link")).First();
+        private IWebElement SearchButton => driver.FindElement(By.Id("search-box__searchbutton"));
+        private IWebElement ProfileButton => driver.FindElement(By.ClassName("hnf-header__profile-link"));
+        private IWebElement LoyaltyHeader => driver.FindElement(By.ClassName("loyalty-modal-content__link-page__header-title"));
         private IWebElement SignInButton => driver.FindElement(By.LinkText("Sign in"));
 
         // Go to the designated page
@@ -62,30 +48,19 @@ namespace InterviewTest.PageObjects
             return driver.Title;
         }
 
-        // Returns the search string
-        //public String getSearchText()
-        //{
-        //    return elem_search_text.Text;
-        //}
-
-        // Checks whether the Logo is displayed properly or not
-        //public bool getWebPageLogo()
-        //{
-        //    return elem_logo_img.Displayed;
-        //}
-
         public HomePageObjects testSearch(string inputSearch)
         {
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.ClassName("search-field__input")));
             SearchBox.Click();
             SearchInput.SendKeys(inputSearch);
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("search-box__searchbutton")));
             SearchButton.Click();
             return new HomePageObjects(driver);
         }
 
         public void OpenProfile()
         {
-            IWebElement el = elLoyaltyHeader;
-            elProfileButton.Click();
+            ProfileButton.Click();
             wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("Sign in")));
             //The following won't work:
             //Error	CS1503	Argument 1: cannot convert from 'OpenQA.Selenium.IWebElement' to 'OpenQA.Selenium.By
@@ -94,7 +69,7 @@ namespace InterviewTest.PageObjects
 
         public string GetLoyaltyHeader()
         {
-            return elLoyaltyHeader.Text;
+            return LoyaltyHeader.Text;
         }
 
         public string SignInText()

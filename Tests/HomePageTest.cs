@@ -18,12 +18,14 @@ namespace InterviewTest.Tests
     public class HomePageTest
     {
         IWebDriver _driver;
+        HomePageObjects HomePage;
 
         [SetUp]
         public void Init()
         {
-            // new DriverManager().SetUpDriver(new ChromeConfig());
             _driver = new ChromeDriver();
+            HomePage = new HomePageObjects(_driver);
+            HomePage.goToPage();
         }
 
         [TearDown]
@@ -36,15 +38,12 @@ namespace InterviewTest.Tests
         [Test]
         public void FindHomePage()
         {
-            HomePageObjects HomePage = new HomePageObjects(_driver);
-            HomePage.goToPage();
             Assert.AreEqual("IKEA US - Furniture and Home Furnishings - IKEA", HomePage.getPageTitle());
         }
 
         [Test]
         public void GetProfile()
         {
-            HomePageObjects HomePage = new HomePageObjects(_driver);
             HomePage.goToPage();
             HomePage.OpenProfile();
             Assert.AreEqual("Hej!", HomePage.GetLoyaltyHeader());
