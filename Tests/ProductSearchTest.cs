@@ -17,12 +17,16 @@ namespace InterviewTest.Tests
     public class ProductSearchTest
     {
         IWebDriver _driver;
+        HomePageObjects HomePage;
+        ProductPageObjects Products;
 
         [SetUp]
         public void Init()
         {
-            // new DriverManager().SetUpDriver(new ChromeConfig());
             _driver = new ChromeDriver();
+            HomePage = new HomePageObjects(_driver);
+            Products = new ProductPageObjects(_driver);
+            HomePage.goToPage();
         }
 
         [TearDown]
@@ -36,10 +40,7 @@ namespace InterviewTest.Tests
         public void FindProduct()
         {
             string product = "Ivar";
-            HomePageObjects HomePage = new HomePageObjects(_driver);
-            HomePage.goToPage();
             HomePage.testSearch(product);
-            ProductPageObjects Products = new ProductPageObjects(_driver); 
             Assert.AreEqual(product + " - Search - IKEA", Products.getPageTitle());
         }
 

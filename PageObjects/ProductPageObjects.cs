@@ -23,12 +23,8 @@ namespace InterviewTest.PageObjects
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            PageFactory.InitElements(driver, this);
-        }        
-
-        [FindsBy(How = How.ClassName, Using = "search-summary__heading")]
-        [CacheLookup]
-        private IWebElement elSearchSummaryHeading;
+        }    
+        private IWebElement SearchSummaryHeading => driver.FindElement(By.ClassName("search-summary__heading"));
         
         // Returns the Page Title
         public String getPageTitle()
@@ -38,27 +34,7 @@ namespace InterviewTest.PageObjects
 
         public string getProductSummary()
         {
-            return elSearchSummaryHeading.Text;
+            return SearchSummaryHeading.Text;
         }
-
-        // Returns the search string
-        //public String getSearchText()
-        //{
-        //    return elem_search_text.Text;
-        //}
-
-        // Checks whether the Logo is displayed properly or not
-        //public bool getWebPageLogo()
-        //{
-        //    return elem_logo_img.Displayed;
-        //}
-
-        //public SearchPage test_search(string input_search)
-        //{
-        //    elem_search_text.SendKeys(input_search);
-        //    //wait.Until(ExpectedConditions.ElementToBeClickable(elem_submit_button)).Submit();
-        //    elem_search_text.Submit();
-        //    return new SearchPage(driver);
-        //}
     }
 }
