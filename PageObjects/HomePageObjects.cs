@@ -6,9 +6,10 @@ using System.Threading;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
+//using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.Chrome;
 
 namespace InterviewTest.PageObjects
@@ -28,17 +29,26 @@ namespace InterviewTest.PageObjects
         }
 
         // Page Elements
-        [FindsBy(How = How.ClassName, Using = "search-box")]
-        [CacheLookup]
-        private IWebElement elSearchBox;
+        private IWebElement SearchBox => driver.FindElement(By.ClassName("search-box"));
 
-        [FindsBy(How = How.ClassName, Using = "search-field__input")]
-        [CacheLookup]
-        private IWebElement elSearchInput;
+        //[FindsBy(How = How.ClassName, Using = "search-field__input")]
+        //[CacheLookup]
+        private IWebElement SearchInput => driver.FindElement(By.ClassName("search-field__input"));
 
-        [FindsBy(How = How.Id, Using = "search-box__searchbutton")]
+        //[FindsBy(How = How.Id, Using = "search-box__searchbutton")]
+        //[CacheLookup]
+        private IWebElement SearchButton => driver.FindElement(By.ClassName("search-box__searchbutton"));
+
+        [FindsBy(How = How.ClassName, Using = "hnf-header__profile-link")]
         [CacheLookup]
-        private IWebElement elSearchButton;
+        private IWebElement elProfileButton;
+
+        [FindsBy(How = How.ClassName, Using = "loyalty-modal-content__link-page__header-title")]
+        [CacheLookup]
+        private IWebElement elLoyaltyHeader;
+
+        //private IWebElement elSignIn => driver.FindElements(By.ClassName("link")).First();
+        private IWebElement SignInButton => driver.FindElement(By.LinkText("Sign in"));
 
         // Go to the designated page
         public void goToPage()
@@ -66,10 +76,36 @@ namespace InterviewTest.PageObjects
 
         public HomePageObjects testSearch(string inputSearch)
         {
-            elSearchBox.Click();
-            elSearchInput.SendKeys(inputSearch);
-            elSearchButton.Click();
+            SearchBox.Click();
+            SearchInput.SendKeys(inputSearch);
+            SearchButton.Click();
             return new HomePageObjects(driver);
+        }
+
+        public void OpenProfile()
+        {
+            IWebElement el = elLoyaltyHeader;
+            elProfileButton.Click();
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.LinkText("Sign in")));
+            //The following won't work:
+            //Error	CS1503	Argument 1: cannot convert from 'OpenQA.Selenium.IWebElement' to 'OpenQA.Selenium.By
+            //wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(el));
+        }
+
+        public string GetLoyaltyHeader()
+        {
+            return elLoyaltyHeader.Text;
+        }
+
+        public string SignInText()
+        {
+            return SignInButton.Text;
+        }
+
+        public void SignIn()
+        {
+            SignInButton.Click();
+            wait.Until(SeleniumExtras.WaitHelpers.ExpectedConditions.ElementIsVisible(By.Id("username")));
         }
     }
 }

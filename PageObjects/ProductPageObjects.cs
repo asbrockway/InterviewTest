@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.Chrome;
 
 namespace InterviewTest.PageObjects

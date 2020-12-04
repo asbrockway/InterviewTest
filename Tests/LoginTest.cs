@@ -15,15 +15,21 @@ using InterviewTest.PageObjects;
 namespace InterviewTest.Tests
 {
     // [TestClass]
-    public class HomePageTest
+    public class LoginTest
     {
         IWebDriver _driver;
+        HomePageObjects HomePage;
+        LoginPageObjects LoginPage;
 
         [SetUp]
         public void Init()
         {
-            // new DriverManager().SetUpDriver(new ChromeConfig());
             _driver = new ChromeDriver();
+            HomePage = new HomePageObjects(_driver);
+            LoginPage = new LoginPageObjects(_driver);
+
+            HomePage.goToPage();
+            HomePage.OpenProfile();
         }
 
         [TearDown]
@@ -34,21 +40,10 @@ namespace InterviewTest.Tests
         }
 
         [Test]
-        public void FindHomePage()
+        public void FindLoginPage()
         {
-            HomePageObjects HomePage = new HomePageObjects(_driver);
-            HomePage.goToPage();
-            Assert.AreEqual("IKEA US - Furniture and Home Furnishings - IKEA", HomePage.getPageTitle());
-        }
-
-        [Test]
-        public void GetProfile()
-        {
-            HomePageObjects HomePage = new HomePageObjects(_driver);
-            HomePage.goToPage();
-            HomePage.OpenProfile();
-            Assert.AreEqual("Hej!", HomePage.GetLoyaltyHeader());
-            Assert.AreEqual("Sign in", HomePage.SignInText());
+            HomePage.SignIn();
+            Assert.AreEqual("Login - IKEA", LoginPage.getPageTitle());
         }
     }
 }
