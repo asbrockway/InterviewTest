@@ -9,14 +9,13 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
+using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.Chrome;
 
 namespace InterviewTest.PageObjects
 {
     class ProductPageObjects
-    {
-        String test_url = "https://www.ikea.com/us/en";
-
+    {        
         private IWebDriver driver;
         private WebDriverWait wait;
 
@@ -24,64 +23,18 @@ namespace InterviewTest.PageObjects
         {
             this.driver = driver;
             wait = new WebDriverWait(driver, TimeSpan.FromSeconds(10));
-            PageFactory.InitElements(driver, this);
-        }
-
-        // Page Elements
-        [FindsBy(How = How.ClassName, Using = "search-box")]
-        [CacheLookup]
-        private IWebElement elSearchBox;
-
-        [FindsBy(How = How.ClassName, Using = "search-field__input")]
-        [CacheLookup]
-        private IWebElement elSearchInput;
-
-        [FindsBy(How = How.Id, Using = "search-box__searchbutton")]
-        [CacheLookup]
-        private IWebElement elSearchButton;
-
-        [FindsBy(How = How.ClassName, Using = "search-summary__heading")]
-        [CacheLookup]
-        private IWebElement elSearchSummaryHeading;
-
-        //[FindsBy(How = How.Name, Using = "q")]
-        //[CacheLookup]
-        //private IWebElement elem_search_text;
-
-        //[FindsBy(How = How.Name, Using = "btnI")]
-        //[CacheLookup]
-        //private IWebElement elem_submit_button;
-
-        // Go to the designated page
-        public void goToPage()
-        {
-            driver.Navigate().GoToUrl(test_url);
-        }
-
+        }    
+        private IWebElement SearchSummaryHeading => driver.FindElement(By.ClassName("search-summary__heading"));
+        
         // Returns the Page Title
         public String getPageTitle()
         {
             return driver.Title;
         }
 
-        // Returns the search string
-        //public String getSearchText()
-        //{
-        //    return elem_search_text.Text;
-        //}
-
-        // Checks whether the Logo is displayed properly or not
-        //public bool getWebPageLogo()
-        //{
-        //    return elem_logo_img.Displayed;
-        //}
-
-        //public SearchPage test_search(string input_search)
-        //{
-        //    elem_search_text.SendKeys(input_search);
-        //    //wait.Until(ExpectedConditions.ElementToBeClickable(elem_submit_button)).Submit();
-        //    elem_search_text.Submit();
-        //    return new SearchPage(driver);
-        //}
+        public string getProductSummary()
+        {
+            return SearchSummaryHeading.Text;
+        }
     }
 }

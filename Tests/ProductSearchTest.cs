@@ -8,26 +8,24 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using OpenQA.Selenium.Support.UI;
 using SeleniumExtras.PageObjects;
-using SeleniumExtras.WaitHelpers;
 using OpenQA.Selenium.Chrome;
 using InterviewTest.PageObjects;
 
 namespace InterviewTest.Tests
 {
     // [TestClass]
-    [Description("Tests the IKEA Homepage")]
-    [Category("Home Page")]
-    [Author("Alanscott Brockway")]
-    public class HomePageTest
+    public class ProductSearchTest
     {
         IWebDriver _driver;
         HomePageObjects HomePage;
+        ProductPageObjects Products;
 
         [SetUp]
         public void Init()
         {
             _driver = new ChromeDriver();
             HomePage = new HomePageObjects(_driver);
+            Products = new ProductPageObjects(_driver);
             HomePage.goToPage();
         }
 
@@ -39,21 +37,12 @@ namespace InterviewTest.Tests
         }
 
         [Test]
-        [Description("Finds the Homepage")]
-        public void FindHomePage()
+        public void FindProduct()
         {
-            Assert.AreEqual("IKEA US - Furniture and Home Furnishings - IKEA", HomePage.getPageTitle());
-        }
-
-        [Test]
-        [Description("Gets the Profile Tab")]
-        public void GetProfile()
-        {
-            HomePage.goToPage();
-            HomePage.OpenProfile();
-            Assert.AreEqual("Hej!", HomePage.GetLoyaltyHeader());
-            Assert.AreEqual("Sign in", HomePage.SignInText());
-            HomePage.CloseProfile();
+            string product = "Ivar";
+            HomePage.Search(product);
+            Assert.AreEqual(product + " - Search - IKEA", Products.getPageTitle());
+            HomePage.WaitForSearchField();
         }
     }
 }
